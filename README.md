@@ -1,13 +1,14 @@
 # COMS W3132 Individual Project
 
 ## Author
-*Your name and email goes here.*
+*Thea Wenyi Zhu
+wz2636@columbia.edu*
 
 ## Project Title
-*Provide a short and descriptive title for your project.*
+*Predict The Stock Market With Machine Learning*
 
 ## Project Description
-*Write a short, concise project description of what your project aims to achieve. Include the motivation for this project (why do you want to work on it), the problem your project aims to solve, and the main goals that you want to accomplish within the rest of the semester. Also mention why you think the project might be useful or interesting to others. Keep this section short. A couple of paragraphs would do.*
+*The project aims to develop a predictive model for forecasting the S&P 500 index price using machine learning techniques. The reason why I picked this topic is because I have investing experiences, but I never get to learn how to use algorithmic trading to predict market. The primary problem it addresses is the tendency for stock price models to overfit, resulting in poor real-world performance. By utilizing a methodical approach to model training and validation, the project aims to circumvent common pitfalls associated with stock price prediction.*
 
 ## Timeline
 
