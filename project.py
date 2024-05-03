@@ -1,31 +1,24 @@
 import yfinance as yf
+import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score
 
-sp500 = yf.Ticker("^GSPC")
-sp500 = sp500.history(period="max")
 
-sp500.plot.line(y='Close', use_index=True)
-# plt.show()
+# Downloading data of MSFT
+msft = yf.Ticker("MSFT")
+msft_hist = msft.history(period="max")
 
-# Cleaning the data
-del sp500['Dividends']
-del sp500['Stock Splits']
+DATA_PATH = "msft_data.json"
 
-sp500['Tomorrow'] = sp500['Close'].shift(-1)
-sp500['Target'] = (sp500['Tomorrow'] > sp500['Close']).astype(int)
+if os.path.exists(DATA_PATH):
+    # Read from file if we've already downloaded the data.
+    with open(DATA_PATH) as f:
+        msft_hist = pd.read_json(DATA_PATH)
+else:
+    msft = yf.Ticker("MSFT")
+    msft_hist = msft.history(period="max")
 
-sp500 = sp500.loc["1990-01-01":].copy()
-print(sp500)
-
-model = RandomForestClassifier(n_estimators=100, min_samples_split=100, random_state=1)
-train = sp500.iloc[:-100]
-test = sp500.iloc[-100:]
-
-predictors = ['Close', 'Volume', 'Open', 'High', 'Low']
-model.fit(train[predictors], train['Target'])
-
-preds = model.predict(test[predictors])
-preds = pd.Series(preds, index = test.index)
+    # Save file to json in case we need it later.  This prevents us from having to re-download it every time.
+    msft_hist.to_json(DATA_PATH)
