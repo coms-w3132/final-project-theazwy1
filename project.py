@@ -7,6 +7,7 @@ from sklearn.metrics import precision_score
 
 DATA_PATH = "msft_data.json"
 
+# Download or load historical MSFT data
 def download_msft_data(data_path):
     """Download or load historical MSFT data."""
     if os.path.exists(data_path):
@@ -18,19 +19,19 @@ def download_msft_data(data_path):
         msft_hist.to_json(data_path)
     return msft_hist
 
-
+# Visualize Microsoft stock prices
 def visualize_hist(msft_hist):
-    """Visualize historical stock prices."""
+    """Visualize historical MSFT stock prices."""
     msft_hist.plot.line(y="Close", use_index=True)
     plt.show()
 
-
+# Prepare the dataset with features and targets
 def prepare_data(msft_hist, predictors):
     """Prepare the dataset with features and targets."""
     data = msft_hist[["Close"]]
     data = data.rename(columns={'Close': 'Actual_Close'})
     data["Target"] = msft_hist.rolling(2).apply(lambda x: x.iloc[1] > x.iloc[0])["Close"]
-    prev_hist = msft_hist.copy().shift(1) # Shift stock prices forward one day, so we're predicting tomorrow's stock prices from today's prices.
+    prev_hist = msft_hist.copy().shift(1)  # Shift stock prices forward one day, so we're predicting tomorrow's stock prices from today's prices.
     data = data.join(prev_hist[predictors]).iloc[1:]
     return data
 
@@ -51,7 +52,6 @@ def train_model(model, train_predictors, train_target):
     """Fit the RandomForest model to the training data."""
     model.fit(train_predictors, train_target)
 
-
 # Evaluate model precision and print results
 def evaluate_and_plot_precision(model, test_predictors, test_target):
     """Evaluate and plot the precision score of the model."""
@@ -67,16 +67,43 @@ def evaluate_and_plot_precision(model, test_predictors, test_target):
 
     return precision
 
+# Backtesting function
+def backtest(data, model, predictors, target_column, start=1000, step=750, threshold=0.6):
+    """Backtest the model using the specified parameters and a probability threshold."""
+    predictions = []
+    for i in range(start, data.shape[0], step):
+        # Split into train and test sets
+        train = data.iloc[0:i].copy()
+        test = data.iloc[i:i + step].copy()
+
+        train_predictors = train[predictors]
+        train_target = train[target_column]
+        test_predictors = test[predictors]
+        test_target = test[target_column]
+
+        # Fit the random forest model
+        model.fit(train_predictors, train_target)
+
+        # Make predictions with a probability threshold
+        probs = model.predict_proba(test_predictors)[:, 1]  # Probabilities for class 1 (price up)
+        preds = pd.Series((probs > threshold).astype(int), index=test.index)
+
+        # Combine predictions and test values
+        combined = pd.concat({"Target": test_target, "Predictions": preds}, axis=1)
+        predictions.append(combined)
+
+    return pd.concat(predictions)
 
 # Main execution
 def main():
     msft_hist = download_msft_data(DATA_PATH)
     visualize_hist(msft_hist)
     predictors = ["Close", "Volume", "Open", "High", "Low"]
+    target_column = "Target"
     data = prepare_data(msft_hist, predictors)
 
     # Create train and test sets
-    train_predictors, train_target, test_predictors, test_target = create_train_test_sets(data, predictors, "Target")
+    train_predictors, train_target, test_predictors, test_target = create_train_test_sets(data, predictors, target_column)
 
     # Create and train the RandomForest model
     model = create_random_forest(n_estimators=100, min_samples_split=200, random_state=1)
@@ -84,6 +111,12 @@ def main():
 
     # Evaluate and plot model precision
     evaluate_and_plot_precision(model, test_predictors, test_target)
+
+    # Run the backtesting
+    predictions = backtest(data, model, predictors, target_column, start=1000, step=750)
+
+    # View first few predictions
+    print(predictions.head())
 
 if __name__ == "__main__":
     main()
