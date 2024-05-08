@@ -28,11 +28,11 @@ def visualize_hist(msft_hist):
 # Prepare the dataset with features and targets
 def prepare_data(msft_hist, predictors):
     """Prepare the dataset with features and targets."""
-    data = msft_hist[["Close"]]
+    data = msft_hist[["Close", "Open", "High", "Low", "Volume"]]
     data = data.rename(columns={'Close': 'Actual_Close'})
     data["Target"] = msft_hist.rolling(2).apply(lambda x: x.iloc[1] > x.iloc[0])["Close"]
     prev_hist = msft_hist.copy().shift(1)  # Shift stock prices forward one day, so we're predicting tomorrow's stock prices from today's prices.
-    data = data.join(prev_hist[predictors]).iloc[1:]
+    data = data.join(prev_hist[predictors], rsuffix="_prev").iloc[1:]
     return data
 
 # Create a random forest classification model
@@ -94,6 +94,27 @@ def backtest(data, model, predictors, target_column, start=1000, step=750, thres
 
     return pd.concat(predictions)
 
+# Evaluate model with backtesting
+def evaluate_model(data, model, predictors, target_column, threshold=0.6):
+    """Evaluate the model using backtesting."""
+    predictions = backtest(data, model, predictors, target_column, start=1000, step=750, threshold=threshold)
+
+    # Calculate precision
+    precision = precision_score(predictions['Target'], predictions['Predictions'])
+    print(f"Precision Score: {precision:.2f}")
+
+    # Calculate value counts for predictions and actual target
+    pred_value_counts = predictions['Predictions'].value_counts()
+    target_value_counts = predictions['Target'].value_counts()
+    print(f"Predictions Value Counts:\n{pred_value_counts}")
+    print(f"Target Value Counts:\n{target_value_counts}")
+
+    # Look at trades we would have made in the last 100 days
+    predictions.iloc[-100:].plot()
+    plt.show()
+
+    return predictions
+
 # Main execution
 def main():
     msft_hist = download_msft_data(DATA_PATH)
@@ -112,8 +133,8 @@ def main():
     # Evaluate and plot model precision
     evaluate_and_plot_precision(model, test_predictors, test_target)
 
-    # Run the backtesting
-    predictions = backtest(data, model, predictors, target_column, start=1000, step=750)
+    # Run the backtesting and evaluate model
+    predictions = evaluate_model(data, model, predictors, target_column, threshold=0.6)
 
     # View first few predictions
     print(predictions.head())
