@@ -12,9 +12,13 @@ wz2636@columbia.edu*
 
 Objectives:
 Download historical Microsoft stock data using the yfinance library.
+
 Prepare the dataset with relevant features, including rolling means, lagged values, and target labels.
+
 Train a Random Forest model to classify the stock price trend (up or down).
+
 Backtest the model over historical data to measure prediction performance.
+
 Visualize the results and generate insights.
 *
 
