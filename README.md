@@ -8,7 +8,15 @@ wz2636@columbia.edu*
 *Predict The Stock Market With Machine Learning*
 
 ## Project Description
-*The project aims to develop a predictive model for forecasting the S&P 500 index price using machine learning techniques. The reason why I picked this topic is because I have investing experiences, but I never get to learn how to use algorithmic trading to predict market. The primary problem it addresses is the tendency for stock price models to overfit, resulting in poor real-world performance. By utilizing a methodical approach to model training and validation, the project aims to circumvent common pitfalls associated with stock price prediction.*
+*The project aims to develop a predictive model for forecasting the MSFT  price using machine learning techniques. The reason why I picked this topic is because I have investing experiences, but I never get to learn how to use algorithmic trading to predict market. The primary problem it addresses is the tendency for stock price models to overfit, resulting in poor real-world performance. I used a Random Forest Classifier to predict whether the closing price of Microsoft will increase or decrease the following day. The project encompasses data acquisition, feature engineering, model training, backtesting, and evaluation to ensure robust predictive performance.
+
+Objectives:
+Download historical Microsoft stock data using the yfinance library.
+Prepare the dataset with relevant features, including rolling means, lagged values, and target labels.
+Train a Random Forest model to classify the stock price trend (up or down).
+Backtest the model over historical data to measure prediction performance.
+Visualize the results and generate insights.
+*
 
 ## Timeline
 
