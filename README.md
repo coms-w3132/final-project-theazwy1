@@ -64,10 +64,12 @@ Solution: Ensure that the data is accurate and complete by downloading it direct
 Solution:
 Handle missing data if any exists.
 Use features that are predictive and carefully prepare the dataset.*
+
 *Challenge 3: Model Tuning
 Solution:
 Optimize the RandomForestClassifier parameters using cross-validation.
 Test different values of n_estimators, min_samples_split, and other hyperparameters.*
+
 *Challenge 4: Model Evaluation and Overfitting
 Solution:
 Use a separate test set to evaluate the model.
@@ -75,8 +77,9 @@ Backtest the model using a rolling window approach.*
 
 ## Additional Resources
 *Data Source:
-Yahoo Finance API via yfinance: yfinance documentation
-Tutorials and Guides:
+Yahoo Finance API via yfinance: yfinance documentation*
+
+*Tutorials and Guides:
 RandomForestClassifier Documentation
 Precision Score Evaluation*
 
