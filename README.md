@@ -75,6 +75,48 @@ Solution:
 Use a separate test set to evaluate the model.
 Backtest the model using a rolling window approach.*
 
+## Non-Trivial Parts of the Python Program Documented
+- **Function 1: `download_msft_data`:**
+  ```python
+  def download_msft_data(data_path):
+      """Download or load historical MSFT data."""
+      if os.path.exists(data_path):
+          with open(data_path) as f:
+              msft_hist = pd.read_json(data_path)
+      else:
+          msft = yf.Ticker("MSFT")
+          msft_hist = msft.history(period="max")
+          msft_hist.to_json(data_path)
+      return msft_hist
+- **Function 2: `prepare_data`:**
+  ```python
+  def prepare_data(msft_hist, predictors):
+    """Prepare the dataset with features and targets."""
+    data = msft_hist[["Close", "Open", "High", "Low", "Volume"]]
+    data = data.rename(columns={'Close': 'Actual_Close'})
+    data["Target"] = msft_hist.rolling(2).apply(lambda x: x.iloc[1] > x.iloc[0])["Close"]
+    prev_hist = msft_hist.copy().shift(1)
+    data = data.join(prev_hist[predictors], rsuffix="_prev").iloc[1:]
+    return data
+- **Function 3: `evaluate_model`:**
+  ```python
+  def evaluate_model(data, model, predictors, target_column, threshold=0.6):
+      """Evaluate the model using backtesting."""
+      predictions = backtest(data, model, predictors, target_column, start=1000, step=750, threshold=threshold)
+  
+      precision = precision_score(predictions['Target'], predictions['Predictions'])
+      print(f"Precision Score: {precision:.2f}")
+  
+      pred_value_counts = predictions['Predictions'].value_counts()
+      target_value_counts = predictions['Target']. value_counts()
+      print(f"Predictions Value Counts:\n{pred_value_counts}")
+      print(f"Target Value Counts:\n{target_value_counts}")
+  
+      predictions.iloc[-100:].plot()
+      plt.show()
+
+    return predictions
+
 ## Additional Resources
 *Data Source:
 Yahoo Finance API via yfinance: yfinance documentation*
