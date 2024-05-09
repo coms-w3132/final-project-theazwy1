@@ -8,19 +8,10 @@ wz2636@columbia.edu*
 *Predict The Stock Market With Machine Learning*
 
 ## Project Description
-*The project aims to develop a predictive model for forecasting the MSFT  price using machine learning techniques. The reason why I picked this topic is because I have investing experiences, but I never get to learn how to use algorithmic trading to predict market. The primary problem it addresses is the tendency for stock price models to overfit, resulting in poor real-world performance. I used a Random Forest Classifier to predict whether the closing price of Microsoft will increase or decrease the following day. The project encompasses data acquisition, feature engineering, model training, backtesting, and evaluation to ensure robust predictive performance.
+*The project aims to develop a predictive model for forecasting the MSFT  price using machine learning techniques. The reason why I picked this topic is because I have investing experiences, but I never get to learn how to use algorithmic trading to predict market. The primary problem it addresses is the tendency for stock price models to overfit, resulting in poor real-world performance. I used a Random Forest Classifier to predict whether the closing price of Microsoft will increase or decrease the following day. The project encompasses data acquisition, feature engineering, model training, backtesting, and evaluation to ensure robust predictive performance.* 
 
-Objectives:
-Download historical Microsoft stock data using the yfinance library.
+*Objectives: Download historical Microsoft stock data using the yfinance library. Prepare the dataset with relevant features, including rolling means, lagged values, and target labels. Train a Random Forest model to classify the stock price trend (up or down). Backtest the model over historical data to measure prediction performance. Visualize the results and generate insights.*
 
-Prepare the dataset with relevant features, including rolling means, lagged values, and target labels.
-
-Train a Random Forest model to classify the stock price trend (up or down).
-
-Backtest the model over historical data to measure prediction performance.
-
-Visualize the results and generate insights.
-*
 
 ## Timeline
 
@@ -38,33 +29,61 @@ Visualize the results and generate insights.
 *The column Deliverables lists deliverable suggestions, but you can choose your own, depending on the type of your project.*
 
 ## Requirements, Features and User Stories
-*List the key requirements or features of your project. For each feature, provide a user story or a simple scenario explaining how the feature will be used. You don't have to get this section right the first time. Your understanding of the problem and requirements will improve as you work on your project. It is okay (and desirable) to come back to this section and revise it as you learn more about the problem you are trying to solve. The first version of this section should reflect your understanding of your problem at the beginning of the project.*
+*This project aims to predict stock market trends using historical Microsoft (MSFT) stock data and a Random Forest Classifier model. The historical data is downloaded using the yfinance library and cached in a JSON file for offline use. Feature engineering plays a crucial role in enhancing the predictive power, with features like rolling means (7, 90, and 365 days), weekly trends, and lagged stock prices (Open, High, Low, Close). A Random Forest Classifier is then trained to predict the closing price trend (up or down) based on these features. The model's performance is evaluated using precision, recall, and value counts through a backtesting function that validates predictions on historical data. Visualization of the last 100 days of predictions helps provide insights into the model's accuracy.*
 
-*Also list any required hardware, software, on online services you will need. In specific cases, we might be able to lend you hardware or obtain online services. Please email the instructor for more details.*
+*The requirements include access to historical Microsoft stock data, standard Python machine learning libraries (yfinance, sklearn, matplotlib, pandas), and sufficient computational resources for training the model. The project is structured to address key user stories: data scientists can download and cache stock data, machine learning engineers can incorporate advanced features to improve predictions, financial analysts can visualize the model's predictions over the last 100 days, and project reviewers can understand the entire workflow from data acquisition to model evaluation.*
+
 
 ## Technical Specification
-*Detail the main algorithms, libraries, and technologies you plan to use. Explain your choice of technology and how it supports your project goals.*
+*The project uses Python and relies on several libraries for data acquisition, feature engineering, and model training. The yfinance library is used to download historical MSFT stock data and cache it locally for repeated analysis. The pandas library is used for data manipulation and feature engineering, including rolling means (7, 90, and 365 days), lagged stock prices, and weekly trends.*
+
+*A Random Forest Classifier is employed for model training, using parameters such as n_estimators=100 (number of trees), min_samples_split=200 (minimum samples to split a node), and random_state=1 (for reproducibility). The model is evaluated using precision and recall scores through the sklearn library. A backtesting function helps validate the model's performance by simulating predictions on historical data. The results are visualized using the matplotlib library, providing insights into the accuracy of predictions over the last 100 days.*
 
 ## System or Software Architecture Diagram
 *Include a block-based diagram illustrating the architecture of your software or system. This should include major components, such as user interface elements, back-end services, and data storage, and show how they interact. Tools like Lucidchart, Draw.io, or even hand-drawn diagrams photographed and uploaded are acceptable. The purpose of the diagram is to help us understand the architecture of your solution. Diagram asthetics do not matter and will not be graded.*
 
 ## Development Methodology
-*Describe the methodology you'll use to organize and progress your work.*
+*Plan for Developing the Project:
+I will use a GitHub Projects board to manage progress on tasks and milestones, and track issues for feature development.
+GitHub Actions will automate testing and deployment pipelines.*
 
-*First, describe your plan for developing your project. This might include how (or if) you plan to use*
-- *GitHub projects board to track progress on tasks and milestones*
-- *GitHub issues to keep track of issues or problems*
-- *Separate Git branches and/or GitHub pull requests for development*
-- *GitHub actions for automated testing or deployment pipelines*
-- *GitHub wiki for documentation and notes*
+*Testing Plan:
+Manual Testing: Visual inspections of plotted data features.
+Automated Testing: Write unit tests with pytest to validate data preparation and model training functionality.*
 
-*Please also describe how (if) you plan test and evaluate your project's functionality. Do you plan to test manually or automatically? Any specific testing frameworks or libraries you plan to use?*
+*GitHub Features Usage:
+Issues: Example issues include "Fix missing data" and "Improve model precision."
+Actions: Automated testing through GitHub Actions.*
 
 ## Potential Challenges and Roadblocks
-*Identify any potential challenges or roadblocks you anticipate facing during the development of your project. For each challenge, propose strategies or solutions you might use to overcome them, which may include getting help from the TAs/instructor. This could include technical hurdles or learning new technologies.*
+*Challenge 1: Acquiring High-Quality Data
+Solution: Ensure that the data is accurate and complete by downloading it directly using yfinance. Also, cache data locally to avoid repeated downloads and ensure consistency.*
+
+*Challenge 2: Data Preparation
+Solution:
+Handle missing data if any exists.
+Use features that are predictive and carefully prepare the dataset.*
+*Challenge 3: Model Tuning
+Solution:
+Optimize the RandomForestClassifier parameters using cross-validation.
+Test different values of n_estimators, min_samples_split, and other hyperparameters.*
+*Challenge 4: Model Evaluation and Overfitting
+Solution:
+Use a separate test set to evaluate the model.
+Backtest the model using a rolling window approach.*
 
 ## Additional Resources
-*Include any additional resources, tutorials, or documentation that will be helpful for this project.*
+*Data Source:
+Yahoo Finance API via yfinance: yfinance documentation
+Tutorials and Guides:
+RandomForestClassifier Documentation
+Precision Score Evaluation*
 
 ## Conclusion and Future Work
-*Wrap up your project description with any final thoughts, expectations, or goals not covered in the sections above. Also briefly discuss potential future work, i.e., what could be done next to improve the project.*
+*Conclusion
+The RandomForest model achieved a reasonable precision score in predicting Microsoft's stock price direction.
+The rolling window backtesting approach provided a realistic evaluation of the model's performance.
+Future Work
+Improvement 1: Tune the model's parameters for higher precision.
+Improvement 2: Incorporate additional features (e.g., technical indicators, sentiment analysis).
+Improvement 3: Expand the backtesting framework to include risk-adjusted metrics like Sharpe Ratio.*
