@@ -40,7 +40,7 @@ wz2636@columbia.edu*
 *A Random Forest Classifier is employed for model training, using parameters such as n_estimators=100 (number of trees), min_samples_split=200 (minimum samples to split a node), and random_state=1 (for reproducibility). The model is evaluated using precision and recall scores through the sklearn library. A backtesting function helps validate the model's performance by simulating predictions on historical data. The results are visualized using the matplotlib library, providing insights into the accuracy of predictions over the last 100 days.*
 
 ## System or Software Architecture Diagram
-![Architecture Diagram](assets/architecture_diagram.png)
+![Architecture Diagram](architecture_diagram.png)
 
 
 ## Development Methodology
