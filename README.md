@@ -83,8 +83,9 @@ Precision Score Evaluation*
 ## Conclusion and Future Work
 *Conclusion
 The RandomForest model achieved a reasonable precision score in predicting Microsoft's stock price direction.
-The rolling window backtesting approach provided a realistic evaluation of the model's performance.
-Future Work
-Improvement 1: Tune the model's parameters for higher precision.
-Improvement 2: Incorporate additional features (e.g., technical indicators, sentiment analysis).
-Improvement 3: Expand the backtesting framework to include risk-adjusted metrics like Sharpe Ratio.*
+The rolling window backtesting approach provided a realistic evaluation of the model's performance.*
+
+*Future Work*
+*Improvement 1: Tune the model's parameters for higher precision.*
+*Improvement 2: Incorporate additional features (e.g., technical indicators, sentiment analysis).*
+*Improvement 3: Expand the backtesting framework to include risk-adjusted metrics like Sharpe Ratio.*
